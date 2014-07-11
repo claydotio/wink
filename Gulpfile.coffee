@@ -112,8 +112,12 @@ gulp.task 'clean:dist', ->
 # init.coffee --> dist/js/bundle.min.js
 gulp.task 'scripts:prod', ['lint:scripts'], ->
   browserify
-    entries: paths.root
+    entries:  paths.root
     extentions: '.coffee'
+  .plugin 'minifyify',
+    map: 'maps/' + outFiles.prod.scripts + '.map'
+    compressPath: ''
+    output: paths.dist + 'maps/' + outFiles.prod.scripts + '.map'
   .bundle()
   .pipe source outFiles.prod.scripts
   .pipe gulp.dest paths.dist + '/js/'
