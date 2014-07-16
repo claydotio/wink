@@ -1,2 +1,21 @@
 body
   margin 0
+
+.c-button
+  padding 8px 40px
+  font-size 20px
+  color white
+  border none
+
+.c-button-blue
+  @extends .c-button
+  background blue
+  border-bottom 5px solid darken(blue, 30%)
+
+.c-button-purple
+  @extends .c-button
+  background purple
+  border-bottom 5px solid darken(purple, 30%)
+
+.uppercase
+  text-transform uppercase

@@ -26,15 +26,15 @@ flo(
     host: 'localhost',
     verbose: false,
     glob: [
-      'build/vendor.js',
-      'build/bundle.js',
-      'build/bundle.css'
+      'js/vendor.js',
+      'js/bundle.js',
+      'css/bundle.css'
     ]
   },
   function resolver(filepath, callback) {
     callback({
       resourceURL: filepath,
-      contents: fs.readFileSync('build/' + filepath).toString()
+      contents: fs.readFileSync('build/' + filepath, 'utf-8').toString()
     });
   }
 )
