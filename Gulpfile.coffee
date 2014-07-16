@@ -1,4 +1,5 @@
 gulp = require 'gulp'
+gutil = require 'gulp-util'
 concat = require 'gulp-concat'
 nodemon = require 'gulp-nodemon'
 #uglify = require 'gulp-uglify'
@@ -55,9 +56,9 @@ gulp.task 'server', ->
 
 
 gulp.task 'watch', ->
-  gulp.watch paths.scripts, ['scripts']
-  gulp.watch paths.vendor, ['vendor']
-  gulp.watch paths.styles, ['styles']
+  gulp.watch paths.scripts, ['scripts:dev']
+  gulp.watch paths.vendor, ['vendor:dev']
+  gulp.watch paths.styles, ['styles:dev']
 
 # run coffee-lint
 gulp.task 'lint:scripts', ->
@@ -69,12 +70,17 @@ gulp.task 'lint:scripts', ->
 # Dev compilation
 #
 
+errorHandler = ->
+  gutil.log.apply null, arguments
+  @emit 'end'
+
 # init.coffee --> build/js/bundle.js
 gulp.task 'scripts:dev', ['lint:scripts'], ->
   browserify
     entries: paths.root
-    extentions: '.coffee'
+    extensions: ['.coffee']
   .bundle debug: true
+  .on('error', errorHandler)
   .pipe source outFiles.dev.scripts
   .pipe gulp.dest paths.build + '/js/'
 
