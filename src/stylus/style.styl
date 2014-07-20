@@ -1,24 +1,44 @@
+json('./vars.json')
+
 body
   margin 0
+  background bgColor
+  color fontColor
+  font-family 'Roboto', sans-serif
+
+.paper-button
+  display inline-block
+  position relative
+  border 0
+  background transparent
+  text-align center
+  font inherit
+  text-transform uppercase
+  outline none
+  border-radius 3px
+  user-select none
+  cursor pointer
+  box-shadow 0px 3px 10px rgba(0, 0, 0, 0.3)
 
 .c-button
-  padding 8px 40px
-  font-size 20px
-  color white
-  border none
-  font-weight bold
-  display inline-block
-  cursor pointer
+  @extends .paper-button
+  padding 10px
+  font-size 30px
+  display block
+  background mainButtonColor
 
-.c-button-blue
+.c-text-center
+  text-align center
+
+.wink-button
   @extends .c-button
-  background blue
-  border-bottom 5px solid darken(blue, 30%)
+  margin 20px
 
-.c-button-purple
+.add-friend-button
   @extends .c-button
-  background purple
-  border-bottom 5px solid darken(purple, 30%)
+  margin 20px
+  background addFriendColor
 
-.uppercase
-  text-transform uppercase
+.friend-button
+  @extends .c-button
+  margin 10px 20px

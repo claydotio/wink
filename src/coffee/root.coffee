@@ -1,10 +1,15 @@
 HomePage = require './pages/home'
-SlapPage = require './pages/slap'
+ActorModel = require './models/actor'
+FriendListModel = require './models/friend_list'
 
-kik.getUser (user) ->
-  console.log user
+if not ActorModel.get()
+
+  # Require user to log in
+  ActorModel.login().then null, ActorModel.login
+
+if kik.message
+  FriendListModel.add [kik.message.from]
 
 z.route.mode = 'hash'
 z.route document.getElementById('app'), '/',
   '/': HomePage
-  '/slap': SlapPage
