@@ -1,6 +1,7 @@
+z = require 'zorium'
 FriendListCtrl = require '../controllers/friend_list'
 styleVars = require '../../stylus/vars'
-console.log kik.message
+
 module.exports =
   render: ->
     friendBgIndex = 0

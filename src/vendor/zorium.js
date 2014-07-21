@@ -1,4 +1,4 @@
-Zorium = z = new function app(window) {
+Mithril = m = new function app(window) {
 	var selectorCache = {}
 	var type = {}.toString
 	var parser = /(?:(^|#|\.)([^#\.\[\]]+))|(\[.+?\])/g, attrParser = /\[(.+?)(?:=("|'|)(.*?)\2)?\]/

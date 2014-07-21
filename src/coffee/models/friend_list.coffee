@@ -1,3 +1,4 @@
+_ = require 'lodash'
 ActorModel = require './actor'
 
 getSavedFriends = ->

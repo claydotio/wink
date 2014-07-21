@@ -2,7 +2,6 @@ gulp = require 'gulp'
 gutil = require 'gulp-util'
 concat = require 'gulp-concat'
 nodemon = require 'gulp-nodemon'
-#uglify = require 'gulp-uglify'
 rename = require 'gulp-rename'
 browserify = require 'browserify'
 clean = require 'gulp-clean'
@@ -11,6 +10,9 @@ source = require 'vinyl-source-stream'
 runSequence = require 'gulp-run-sequence'
 stylus = require 'gulp-stylus'
 coffeelint = require 'gulp-coffeelint'
+
+# Add vendor files to NODE_PATH for clean requires
+process.env.NODE_PATH += ':./src/vendor'
 
 outFiles =
   dev:

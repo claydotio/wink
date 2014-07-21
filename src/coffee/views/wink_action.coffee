@@ -1,3 +1,4 @@
+z = require 'zorium'
 WinkCtrl = require '../controllers/wink'
 
 module.exports =

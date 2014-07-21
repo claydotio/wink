@@ -1,3 +1,5 @@
+z = require 'zorium'
+
 module.exports = do =>
   @user = null
   @get = =>

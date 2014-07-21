@@ -1,3 +1,6 @@
+z = require 'zorium'
+_ = require 'lodash'
+
 WinkService = require '../services/wink'
 FriendListModel = require '../models/friend_list'
 ActorModel = require '../models/actor'

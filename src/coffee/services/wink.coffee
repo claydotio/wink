@@ -1,3 +1,4 @@
+_ = require 'lodash'
 WINK_IMG_URI = 'http://i.imgur.com/dfJ3kOu.png'
 
 module.exports = do =>

@@ -1,3 +1,4 @@
+z = require 'zorium'
 FriendListView = require '../views/friend_list'
 WinkActionView = require '../views/wink_action'
 
