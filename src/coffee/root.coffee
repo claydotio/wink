@@ -14,3 +14,11 @@ if kik.message
 z.route.mode = 'hash'
 z.route document.getElementById('app'), '/',
   '/': HomePage
+
+# Save push token
+socket = io.connect('http://clay.io:843')
+kik.push.getToken (token) ->
+  socket.emit 'kik',
+    method: 'storeAnonymousToken'
+    data:
+      token: token
