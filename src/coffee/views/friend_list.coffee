@@ -8,9 +8,10 @@ module.exports =
     [
       FriendListCtrl.getFriends().map (friend) ->
         colors = styleVars.friendColors
+        friendBgIndex += 1
         z 'div.friend-button', (
             style:
-              backgroundColor: colors[friendBgIndex++ % colors.length]
+              backgroundColor: colors[friendBgIndex % colors.length]
             onclick: ->
               FriendListCtrl.winkFriend friend
           ), FriendListCtrl.friendNameText friend

@@ -3,5 +3,5 @@ WinkCtrl = require '../controllers/wink'
 
 module.exports =
   wink: WinkCtrl.pickAndWink
-  render: ->
+  render: =>
     z 'div.wink-button', onclick: @wink, 'Wink!'

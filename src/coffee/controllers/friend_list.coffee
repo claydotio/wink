@@ -13,7 +13,7 @@ module.exports =
       setTimeout (-> z.redraw()), SENT_TEXT_TIME
       return 'Sent!'
     friend.username
-  winkFriend: (friend)->
+  winkFriend: (friend) ->
     WinkService.wink ActorModel.get(), friend
     FriendListModel.updateSent friend.username
   getFriends: ->
