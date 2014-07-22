@@ -12,6 +12,7 @@
   "license": "",
   "devDependencies": {
     "browserify": "4.2.1",
+    "browserify-shim": "3.6.0",
     "coffee-script": "1.7.1",
     "coffeeify": "0.6.0",
     "express": "4.5.1",
@@ -28,6 +29,10 @@
     "gulp-util": "2.2.20",
     "minifyify": "3.0.11",
     "vinyl-source-stream": "0.1.1"
+  },
+  "browser": {
+    "lodash": "./components/lodash/dist/lodash.js",
+    "zorium": "./components/zorium.js/mithril.js"
   },
   "browserify": {
     "transform": [
