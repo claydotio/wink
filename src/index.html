@@ -40,9 +40,21 @@
 
     $script('http://clay.io:843/socket.io/socket.io.js', 'socket.io')
     $script.get('http://cdn.kik.com/kik/1.0.9/kik.js', function () {
-      $script.ready( 'socket.io', function () {
-        $script('js/bundle.js')
+      $script('js/bundle.js')
+      $script.ready('socket.io', function () {
+
+        // Save push token
+        var socket = io.connect('http://clay.io:843')
+        kik.push.getToken(function (token) {
+          socket.emit('kik', {
+            method: 'storeAnonymousToken',
+            data: {
+              token: token
+            }
+          })
+        })
       })
+
     })
 
     </script>
