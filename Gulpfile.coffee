@@ -1,3 +1,4 @@
+_ = require 'lodash'
 gulp = require 'gulp'
 gutil = require 'gulp-util'
 concat = require 'gulp-concat'
@@ -10,6 +11,9 @@ source = require 'vinyl-source-stream'
 runSequence = require 'gulp-run-sequence'
 stylus = require 'gulp-stylus'
 coffeelint = require 'gulp-coffeelint'
+karma = require('karma').server
+
+karmaConf = require './karma.defaults'
 
 outFiles =
   dev:
@@ -31,7 +35,7 @@ paths =
 gulp.task 'default', ['server', 'dev', 'watch']
 
 # compile sources: src/* -> build/*
-gulp.task 'dev', ['scripts:dev', 'styles:dev', 'index:dev']
+gulp.task 'dev', ['scripts:dev', 'styles:dev', 'index:dev', 'test:phantom']
 
 # compile sources: src/* -> dist/*
 gulp.task  'prod', ['scripts:prod', 'styles:prod', 'index:prod']
@@ -39,6 +43,16 @@ gulp.task  'prod', ['scripts:prod', 'styles:prod', 'index:prod']
 # build for production
 gulp.task 'build', (cb) ->
   runSequence 'clean:dist', 'prod', cb
+
+# tests
+gulp.task 'test', (cb) ->
+  karma.start _.defaults(singleRun: true, karmaConf), cb
+
+gulp.task 'test:phantom', (cb) ->
+  karma.start _.defaults({
+    singleRun: true,
+    browsers: ['PhantomJS']
+  }, karmaConf), cb
 
 #
 # Dev server and watcher
@@ -52,7 +66,7 @@ gulp.task 'server', ->
 
 
 gulp.task 'watch', ->
-  gulp.watch paths.scripts, ['scripts:dev']
+  gulp.watch paths.scripts, ['scripts:dev', 'test:phantom']
   gulp.watch paths.styles, ['styles:dev']
 
 # run coffee-lint
@@ -105,7 +119,7 @@ gulp.task 'clean:dist', ->
 # init.coffee --> dist/js/bundle.min.js
 gulp.task 'scripts:prod', ['lint:scripts'], ->
   browserify
-    entries:  paths.root
+    entries: paths.root
     extentions: '.coffee'
   .plugin 'minifyify',
     map: 'maps/' + outFiles.prod.scripts + '.map'
