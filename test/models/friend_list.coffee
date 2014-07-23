@@ -1,4 +1,4 @@
-expect = require('chai').expect
+should = require('clay-chai').should()
 
 FriendListModel = require 'models/friend_list'
 
@@ -11,12 +11,11 @@ describe 'FriendListModel', ->
   it 'get()', ->
     FriendListModel.add [{username: 'jim'}, {username: 'bob'}]
     friends = FriendListModel.get()
-    expect(friends.length).to.equal 2
-    expect(friends[0].username).to.equal 'jim'
+    friends.length.should.be 2
+    friends[0].username.should.be 'jim'
 
   it 'updateSent()', ->
     FriendListModel.add [{username: 'jim'}]
-    expect(FriendListModel.get()[0].lastSent).to.equal undefined
-    
+    should.not.exist FriendListModel.get()[0].lastSent
     FriendListModel.updateSent ['jim']
-    expect(FriendListModel.get()[0].lastSent).to.be.at.most Date.now()
+    FriendListModel.get()[0].lastSent.should.to.be.at.most Date.now()
