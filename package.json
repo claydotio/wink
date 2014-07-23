@@ -18,6 +18,7 @@
     "coffeeify": "0.6.0",
     "express": "4.5.1",
     "fb-flo": "0.2.1",
+    "glob": "4.0.4",
     "gulp": "3.8.6",
     "gulp-clean": "0.3.1",
     "gulp-coffeelint": "0.3.3",

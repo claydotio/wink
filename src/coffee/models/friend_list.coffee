@@ -9,7 +9,11 @@ saveFriends = (friends) ->
 
 
 module.exports = do =>
+  @clear = ->
+    delete localStorage.friends
+
   @get = getSavedFriends
+
   @add = (users) ->
     console.log 'adding', users, 'as', ActorModel.get()
     friends = getSavedFriends()
@@ -19,15 +23,16 @@ module.exports = do =>
           users.concat(friends),
           'username'
         ),
-        (user) -> user.username == ActorModel.get().username
+        (user) -> user.username == ActorModel.get()?.username
       )
     )
+
   @updateSent = (username) =>
     if _.isArray username
       return _.map username, @updateSent
 
-
     friends = getSavedFriends()
     _.find(friends, username: username).lastSent = Date.now()
     saveFriends(friends)
+
   return this

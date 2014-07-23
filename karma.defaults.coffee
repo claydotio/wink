@@ -6,12 +6,12 @@ module.exports =
 
     # frameworks to use
     # available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'browserify']
+    frameworks: ['mocha']
 
 
     # list of files / patterns to load in the browser
     files: [
-      'test/**/*.coffee'
+      'build/test/bundle.js'
     ]
 
 
@@ -19,17 +19,11 @@ module.exports =
     exclude: [
     ]
 
-    browserify:
-      extensions: ['.coffee']
-      debug: true
-
 
     # preprocess matching files before serving them to the browser
     # available preprocessors:
     #   https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '**/*.coffee': ['coffee'],
-      'test/**/*.coffee': ['browserify']
     }
 
 

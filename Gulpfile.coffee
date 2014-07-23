@@ -11,9 +11,13 @@ source = require 'vinyl-source-stream'
 runSequence = require 'gulp-run-sequence'
 stylus = require 'gulp-stylus'
 coffeelint = require 'gulp-coffeelint'
+glob = require 'glob'
 karma = require('karma').server
 
 karmaConf = require './karma.defaults'
+
+# Modify NODE_PATH for test require's
+process.env.NODE_PATH += ':' + __dirname + '/src/coffee'
 
 outFiles =
   dev:
@@ -25,6 +29,7 @@ outFiles =
 
 paths =
   scripts: './src/coffee/**/*.coffee'
+  tests: './test/**/*.coffee'
   root: './src/coffee/root.coffee'
   index: './src/index.html'
   styles: './src/stylus/style.styl'
@@ -45,14 +50,24 @@ gulp.task 'build', (cb) ->
   runSequence 'clean:dist', 'prod', cb
 
 # tests
-gulp.task 'test', (cb) ->
+gulp.task 'test', ['scripts:dev', 'scripts:test'], (cb) ->
   karma.start _.defaults(singleRun: true, karmaConf), cb
 
-gulp.task 'test:phantom', (cb) ->
+gulp.task 'test:phantom', ['scripts:dev', 'scripts:test'], (cb) ->
   karma.start _.defaults({
     singleRun: true,
     browsers: ['PhantomJS']
   }, karmaConf), cb
+
+gulp.task 'scripts:test', ->
+  testFiles = glob.sync('./test/**/*.coffee')
+  browserify
+    entries: testFiles
+    extensions: ['.coffee']
+  .bundle debug: true
+  .on 'error', errorHandler
+  .pipe source outFiles.dev.scripts
+  .pipe gulp.dest paths.build + '/test/'
 
 #
 # Dev server and watcher
@@ -68,6 +83,7 @@ gulp.task 'server', ->
 gulp.task 'watch', ->
   gulp.watch paths.scripts, ['scripts:dev', 'test:phantom']
   gulp.watch paths.styles, ['styles:dev']
+  gulp.watch paths.tests, ['test:phantom']
 
 # run coffee-lint
 gulp.task 'lint:scripts', ->
@@ -89,7 +105,7 @@ gulp.task 'scripts:dev', ['lint:scripts'], ->
     entries: paths.root
     extensions: ['.coffee']
   .bundle debug: true
-  .on('error', errorHandler)
+  .on 'error', errorHandler
   .pipe source outFiles.dev.scripts
   .pipe gulp.dest paths.build + '/js/'
 
