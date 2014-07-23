@@ -5,7 +5,7 @@ class ActorModel
 
   get: ->
     @user
-  login: =>
+  login: ->
     deferred = z.deferred()
     kik.getUser (user) =>
       if not user
