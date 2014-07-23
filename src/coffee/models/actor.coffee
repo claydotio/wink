@@ -1,12 +1,13 @@
 z = require 'zorium'
 
 class ActorModel
-  user: null
+  @user = null
+
   get: ->
     @user
-  login: ->
+  login: =>
     deferred = z.deferred()
-    kik.getUser (user) ->
+    kik.getUser (user) =>
       if not user
         return deferred.reject 'Permission Denied'
       @user = user

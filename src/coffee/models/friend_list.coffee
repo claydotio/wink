@@ -1,4 +1,5 @@
 _ = require 'lodash'
+log = require 'loglevel'
 ActorModel = require './actor'
 
 class FriendListModel
@@ -17,7 +18,7 @@ class FriendListModel
   get: getSavedFriends
 
   add: (users) ->
-    console.log 'adding', users, 'as', ActorModel.get()
+    log.info 'adding', users, 'as', ActorModel.get()
     friends = getSavedFriends()
     saveFriends(
       _.omit(
