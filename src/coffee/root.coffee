@@ -1,5 +1,5 @@
 z = require 'zorium'
-HomePage = require './pages/home'
+HomePage = new (require './pages/home')()
 ActorModel = require './models/actor'
 FriendListModel = require './models/friend_list'
 

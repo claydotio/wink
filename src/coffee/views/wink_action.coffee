@@ -1,9 +1,7 @@
 z = require 'zorium'
-WinkCtrl = require '../controllers/wink'
+WinkCtrl = new (require '../controllers/wink')()
 
-module.exports = do ->
-  @wink = WinkCtrl.pickAndWink
-  @render = =>
+module.exports = class WinkActionView
+  wink: WinkCtrl.pickAndWink
+  render: ->
     z 'div.wink-button', onclick: @wink, 'Wink!'
-
-  return this

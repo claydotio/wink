@@ -5,8 +5,8 @@ WinkService = require '../services/wink'
 FriendListModel = require '../models/friend_list'
 ActorModel = require '../models/actor'
 
-module.exports = do =>
-  @pickAndWink = ->
+module.exports = class WinkCtrl
+  pickAndWink: ->
     z.startComputation()
     kik.pickUsers (users) ->
       if not users
@@ -17,5 +17,3 @@ module.exports = do =>
       WinkService.wink ActorModel.get(), users
       FriendListModel.updateSent _.pluck(users, 'username')
       z.endComputation()
-
-  return this

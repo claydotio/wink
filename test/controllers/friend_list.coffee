@@ -1,6 +1,6 @@
 should = require('clay-chai').should()
 
-FriendListCtrl = require 'controllers/friend_list'
+FriendListCtrl = new (require 'controllers/friend_list')()
 
 describe 'FriendListCtrl', ->
   it 'gets friendNameText', ->

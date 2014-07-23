@@ -1,20 +1,22 @@
 _ = require 'lodash'
 ActorModel = require './actor'
 
-getSavedFriends = ->
-  _.filter(JSON.parse(localStorage.friends or '[]'))
+class FriendListModel
 
-saveFriends = (friends) ->
-  localStorage.friends = JSON.stringify(friends)
+  # Private
+  getSavedFriends = ->
+    _.filter(JSON.parse(localStorage.friends or '[]'))
 
+  saveFriends = (friends) ->
+    localStorage.friends = JSON.stringify(friends)
 
-module.exports = do =>
-  @clear = ->
+  # Public
+  clear: ->
     delete localStorage.friends
 
-  @get = getSavedFriends
+  get: getSavedFriends
 
-  @add = (users) ->
+  add: (users) ->
     console.log 'adding', users, 'as', ActorModel.get()
     friends = getSavedFriends()
     saveFriends(
@@ -27,7 +29,7 @@ module.exports = do =>
       )
     )
 
-  @updateSent = (username) =>
+  updateSent: (username) ->
     if _.isArray username
       return _.map username, @updateSent
 
@@ -35,4 +37,5 @@ module.exports = do =>
     _.find(friends, username: username).lastSent = Date.now()
     saveFriends(friends)
 
-  return this
+
+module.exports = new FriendListModel()

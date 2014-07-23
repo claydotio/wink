@@ -1,8 +1,8 @@
 z = require 'zorium'
-FriendListCtrl = require '../controllers/friend_list'
+FriendListCtrl = new (require '../controllers/friend_list')()
 styleVars = require '../../stylus/vars'
 
-module.exports =
+module.exports = class FriendListView
   render: ->
     friendBgIndex = 0
     [

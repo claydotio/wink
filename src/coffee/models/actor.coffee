@@ -1,15 +1,16 @@
 z = require 'zorium'
 
-module.exports = do =>
-  @user = null
-  @get = =>
+class ActorModel
+  user: null
+  get: ->
     @user
-  @login = =>
+  login: ->
     deferred = z.deferred()
-    kik.getUser (user) =>
+    kik.getUser (user) ->
       if not user
         return deferred.reject 'Permission Denied'
       @user = user
       deferred.resolve(user)
     deferred.promise
-  return this
+
+module.exports = new ActorModel()

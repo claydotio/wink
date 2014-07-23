@@ -1,6 +1,6 @@
 should = require('clay-chai').should()
 
-WinkActionView = require 'views/wink_action'
+WinkActionView = new (require 'views/wink_action')()
 
 describe 'WinkActionView', ->
   it 'renders a button, with text Wink!', ->

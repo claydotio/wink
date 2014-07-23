@@ -7,7 +7,7 @@ ActorModel = require '../models/actor'
 
 SENT_TEXT_TIME = 2000
 
-module.exports =
+module.exports = class FriendListCtrl
   friendNameText: (friend) ->
     if Date.now() - friend.lastSent < SENT_TEXT_TIME
       setTimeout (-> z.redraw()), SENT_TEXT_TIME
