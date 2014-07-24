@@ -46,7 +46,8 @@
   "browser": {
     "lodash": "./components/lodash/dist/lodash.js",
     "zorium": "./components/zorium.js/mithril.js",
-    "loglevel": "./components/loglevel/dist/loglevel.min.js"
+    "loglevel": "./components/loglevel/dist/loglevel.js",
+    "q": "./components/q/q.js"
   },
   "browserify": {
     "transform": [
