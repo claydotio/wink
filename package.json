@@ -39,8 +39,8 @@
     "karma-mocha": "0.1.6",
     "karma-phantomjs-launcher": "0.1.4",
     "lodash": "2.4.1",
-    "minifyify": "3.0.11",
     "mocha": "1.20.1",
+    "uglifyify": "2.5.0",
     "vinyl-source-stream": "0.1.1"
   },
   "browser": {
