@@ -13,8 +13,12 @@ stylus = require 'gulp-stylus'
 coffeelint = require 'gulp-coffeelint'
 glob = require 'glob'
 karma = require('karma').server
-
 karmaConf = require './karma.defaults'
+inline = require 'gulp-inline-source'
+s3 = require 'gulp-s3'
+revall = require 'gulp-rev-all'
+gzip = require 'gulp-gzip'
+cloudfront = require 'gulp-cloudfront'
 
 # Modify NODE_PATH for test require's
 process.env.NODE_PATH += ':' + __dirname + '/src/coffee'
@@ -35,6 +39,18 @@ paths =
   styles: './src/stylus/style.styl'
   dist: './dist/'
   build: './build/'
+  
+# passwords, keys, etc...
+sensitive = require './sensitive.coffee'
+aws =
+  'key': sensitive.AWS_KEY
+  'secret': sensitive.AWS_SECRET
+  'bucket': sensitive.S3_BUCKET
+  'region': sensitive.S3_REGION
+  'distributionId': sensitive.CLOUDFRONT_DISTRIBUTION_ID
+  'headers': 
+    'Cache-Control': 'max-age=315360000, no-transform, public'
+  'invalidateItems': ['/cache.appcache']
 
 # start the dev server, and auto-update
 gulp.task 'default', ['server', 'dev', 'watch']
@@ -43,11 +59,31 @@ gulp.task 'default', ['server', 'dev', 'watch']
 gulp.task 'dev', ['scripts:dev', 'styles:dev', 'index:dev', 'test:phantom']
 
 # compile sources: src/* -> dist/*
-gulp.task  'prod', ['scripts:prod', 'styles:prod', 'index:prod']
+gulp.task 'prod', ['scripts:prod', 'styles:prod', 'index:prod']
 
 # build for production
 gulp.task 'build', (cb) ->
   runSequence 'clean:dist', 'prod', cb
+  
+# publishing to aws
+# create revisions (filename-random.extension, gzip, upload to s3, update cloudfront)
+gulp.task 'publish:cloudfront', ->
+  gulp.src [paths.build + '**/*.*', '!' + paths.build + 'assets/kik-icon*.*'] 
+    .pipe revall
+        skip: ['vendor.js']
+        ignore: ['cache.appcache']
+        root: 'index.html'
+        hashLength: 6
+    .pipe gzip() 
+    .pipe s3 aws, gzippedOnly: true
+    .pipe cloudfront(aws)
+
+gulp.task 'publish:cloudfrontNoGzip', ->
+  gulp.src(paths.build + '**/kik-icon*.png').pipe(revall(hashLength: 6)).pipe s3(aws)
+
+
+gulp.task 'publish', ->
+  runSequence 'build', 'publish:cloudfront', 'publish:cloudfrontNoGzip'
 
 # tests
 gulp.task 'test', ['scripts:dev', 'scripts:test'], (cb) ->
