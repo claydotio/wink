@@ -6,8 +6,7 @@
   "scripts": {
     "test": "node_modules/gulp/bin/gulp.js test",
     "start": "node server.js",
-    "dev": "node_modules/gulp/bin/gulp.js",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "dev": "node_modules/gulp/bin/gulp.js"
   },
   "author": "",
   "license": "",
@@ -39,18 +38,20 @@
     "karma-mocha": "0.1.6",
     "karma-phantomjs-launcher": "0.1.4",
     "lodash": "2.4.1",
-    "minifyify": "3.0.11",
     "mocha": "1.20.1",
-    "vinyl-source-stream": "0.1.1",
-    "gulp-cloudfront": "0.0.14",
+    "gulp-cloudfront": "git://github.com/austinhallock/gulp-cloudfront.git",
     "gulp-gzip": "0.0.8",
     "gulp-inline-source": "0.0.2",
-    "gulp-s3": "^0.3.0",
-    "gulp-rev-all": "^0.5.11"
+    "gulp-s3": "git://github.com/austinhallock/gulp-s3.git",
+    "gulp-rev-all": "git://github.com/austinhallock/gulp-rev-all.git",
+    "uglifyify": "2.5.0",
+    "vinyl-source-stream": "0.1.1"
   },
   "browser": {
     "lodash": "./components/lodash/dist/lodash.js",
-    "zorium": "./components/zorium.js/mithril.js"
+    "zorium": "./components/zorium.js/mithril.js",
+    "loglevel": "./components/loglevel/dist/loglevel.js",
+    "q": "./components/q/q.js"
   },
   "browserify": {
     "transform": [

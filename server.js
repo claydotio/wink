@@ -4,7 +4,7 @@
 var express = require('express')
 var app = express()
 
-if (process.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express['static'](__dirname + '/dist'))
 } else {
   app.use(express['static'](__dirname + '/build'))

@@ -24,12 +24,8 @@ cloudfront = require 'gulp-cloudfront'
 process.env.NODE_PATH += ':' + __dirname + '/src/coffee'
 
 outFiles =
-  dev:
-    scripts: 'bundle.js'
-    styles: 'bundle.css'
-  prod:
-    scripts: 'bundle.min.js'
-    styles: 'bundle.min.css'
+  scripts: 'bundle.js'
+  styles: 'bundle.css'
 
 paths =
   scripts: './src/coffee/**/*.coffee'
@@ -102,7 +98,7 @@ gulp.task 'scripts:test', ->
     extensions: ['.coffee']
   .bundle debug: true
   .on 'error', errorHandler
-  .pipe source outFiles.dev.scripts
+  .pipe source outFiles.scripts
   .pipe gulp.dest paths.build + '/test/'
 
 #
@@ -142,7 +138,7 @@ gulp.task 'scripts:dev', ['lint:scripts'], ->
     extensions: ['.coffee']
   .bundle debug: true
   .on 'error', errorHandler
-  .pipe source outFiles.dev.scripts
+  .pipe source outFiles.scripts
   .pipe gulp.dest paths.build + '/js/'
 
 # css/style.css --> build/css/bundle.css
@@ -150,7 +146,7 @@ gulp.task 'styles:dev', ->
   gulp.src paths.styles
     .pipe sourcemaps.init()
       .pipe stylus()
-      .pipe rename outFiles.dev.styles
+      .pipe rename outFiles.styles
     .pipe sourcemaps.write()
     .pipe gulp.dest paths.build + '/css/'
 
@@ -172,13 +168,10 @@ gulp.task 'clean:dist', ->
 gulp.task 'scripts:prod', ['lint:scripts'], ->
   browserify
     entries: paths.root
-    extentions: '.coffee'
-  .plugin 'minifyify',
-    map: 'maps/' + outFiles.prod.scripts + '.map'
-    compressPath: ''
-    output: paths.dist + 'maps/' + outFiles.prod.scripts + '.map'
+    extensions: ['.coffee']
+  .transform {global: true}, 'uglifyify'
   .bundle()
-  .pipe source outFiles.prod.scripts
+  .pipe source outFiles.scripts
   .pipe gulp.dest paths.dist + '/js/'
 
 # css/style.css --> dist/css/bundle.min.css
@@ -186,7 +179,7 @@ gulp.task 'styles:prod', ->
   gulp.src paths.styles
     .pipe sourcemaps.init()
       .pipe stylus()
-      .pipe rename outFiles.prod.styles
+      .pipe rename outFiles.styles
     .pipe sourcemaps.write '../maps/'
     .pipe gulp.dest paths.dist + '/css/'
 
