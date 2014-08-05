@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "postinstall": "node_modules/bower/bin/bower install",
+    "postinstall": "node_modules/bower/bin/bower install --allow-root",
     "test": "node_modules/gulp/bin/gulp.js test",
     "start": "node server.js",
     "dev": "node_modules/gulp/bin/gulp.js",

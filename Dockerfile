@@ -12,7 +12,3 @@ RUN apt-get update
 
 # Install Git
 RUN apt-get install -y git
-
-# Create user 'kaiser'
-RUN groupadd -r kaiser -g 433 && \
-useradd -u 431 -r -g kaiser -s /sbin/nologin -c "Docker image user" kaiser
