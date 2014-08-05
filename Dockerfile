@@ -15,5 +15,4 @@ RUN apt-get install -y git
 
 # Create user 'kaiser'
 RUN groupadd -r kaiser -g 433 && \
-useradd -u 431 -r -g kaiser -d /home/kaiser -s /sbin/nologin -c "Docker image user" kaiser && \
-chown -R kaiser:kaiser /home/kaiser
+useradd -u 431 -r -g kaiser -s /sbin/nologin -c "Docker image user" kaiser
