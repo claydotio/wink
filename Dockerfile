@@ -1,14 +1,24 @@
 FROM ubuntu:14.04
 
-# Fetch Nodejs from the official repo (binary .. no hassle to build, etc.)
-ADD http://nodejs.org/dist/v0.10.30/node-v0.10.30-linux-x64.tar.gz /opt/
-
-# Untar and add to the PATH
-RUN cd /opt && tar xzf node-v0.10.30-linux-x64.tar.gz && \
-mv node-v0.10.30-linux-x64 node
-
 # Update Apt
 RUN apt-get update
 
-# Install Git
-RUN apt-get install -y git
+# Install Git, npm, and node
+RUN apt-get install -y git npm nodejs
+
+# Rename nodejs to node
+RUN sudo ln -s /usr/bin/nodejs /usr/bin/node
+
+# Create user 'kaiser'
+RUN useradd -m -d /home/kaiser -c "Docker image user" kaiser
+RUN chown -R kaiser /opt
+
+# Run the rest of the commands as 'kaiser'
+USER kaiser
+ENV HOME /home/kaiser
+
+# Add source
+ADD . /opt/wink
+
+# Install app deps
+RUN cd /opt/wink; npm install
