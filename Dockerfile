@@ -22,3 +22,6 @@ ADD . /opt/wink
 
 # Install app deps
 RUN cd /opt/wink; npm install
+
+WORKDIR /opt/wink
+CMD ["npm", "run", "build"]
