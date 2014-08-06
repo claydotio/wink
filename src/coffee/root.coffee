@@ -3,10 +3,13 @@ HomePage = new (require './pages/home')()
 ActorModel = require './models/actor'
 FriendListModel = require './models/friend_list'
 
-if not ActorModel.get()
+login = ->
+  if not ActorModel.get()
 
-  # Require user to log in
-  ActorModel.login().then null, ActorModel.login
+    # Require user to log in
+    ActorModel.login().then null, login
+
+login()
 
 if kik.message
   FriendListModel.add [kik.message.from]
