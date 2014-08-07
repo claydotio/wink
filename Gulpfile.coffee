@@ -36,18 +36,6 @@ paths =
   dist: './dist/'
   build: './build/'
 
-# passwords, keys, etc...
-sensitive = require './sensitive.coffee'
-aws =
-  'key': sensitive.AWS_KEY
-  'secret': sensitive.AWS_SECRET
-  'bucket': sensitive.S3_BUCKET
-  'region': sensitive.S3_REGION
-  'distributionId': sensitive.CLOUDFRONT_DISTRIBUTION_ID
-  'headers':
-    'Cache-Control': 'max-age=315360000, no-transform, public'
-  'invalidateItems': ['/cache.appcache']
-
 # start the dev server, and auto-update
 gulp.task 'default', ['server', 'dev', 'watch']
 
@@ -62,20 +50,47 @@ gulp.task 'build', (cb) ->
   runSequence 'clean:dist', 'prod', cb
 
 # publishing to aws
-# create revisions (filename-random.extension, gzip, upload to s3, update cloudfront)
+# create revisions
+# (filename-random.extension, gzip, upload to s3, update cloudfront)
 gulp.task 'publish:cloudfront', ->
+  # passwords, keys, etc...
+  sensitive = require './sensitive.coffee'
+  aws =
+    'key': sensitive.AWS_KEY
+    'secret': sensitive.AWS_SECRET
+    'bucket': sensitive.S3_BUCKET
+    'region': sensitive.S3_REGION
+    'distributionId': sensitive.CLOUDFRONT_DISTRIBUTION_ID
+    'headers':
+      'Cache-Control': 'max-age=315360000, no-transform, public'
+    'invalidateItems': ['/cache.appcache']
+
   gulp.src [paths.dist + '**/*.*', '!' + paths.dist + 'assets/kik-icon*.*']
     .pipe revall
-        skip: ['vendor.js']
-        ignore: ['cache.appcache']
-        root: 'index.html'
-        hashLength: 6
+      skip: ['vendor.js']
+      ignore: ['cache.appcache']
+      root: 'index.html'
+      hashLength: 6
     .pipe gzip()
     .pipe s3 aws, gzippedOnly: true
     .pipe cloudfront(aws)
 
 gulp.task 'publish:cloudfrontNoGzip', ->
-  gulp.src(paths.dist + '**/kik-icon*.png').pipe(revall(hashLength: 6)).pipe s3(aws)
+  # passwords, keys, etc...
+  sensitive = require './sensitive.coffee'
+  aws =
+    'key': sensitive.AWS_KEY
+    'secret': sensitive.AWS_SECRET
+    'bucket': sensitive.S3_BUCKET
+    'region': sensitive.S3_REGION
+    'distributionId': sensitive.CLOUDFRONT_DISTRIBUTION_ID
+    'headers':
+      'Cache-Control': 'max-age=315360000, no-transform, public'
+    'invalidateItems': ['/cache.appcache']
+
+  gulp.src(paths.dist + '**/kik-icon*.png')
+  .pipe(revall(hashLength: 6))
+  .pipe s3(aws)
 
 
 gulp.task 'publish', ->
