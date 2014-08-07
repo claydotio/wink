@@ -35,7 +35,7 @@ paths =
   styles: './src/stylus/style.styl'
   dist: './dist/'
   build: './build/'
-  
+
 # passwords, keys, etc...
 sensitive = require './sensitive.coffee'
 aws =
@@ -44,7 +44,7 @@ aws =
   'bucket': sensitive.S3_BUCKET
   'region': sensitive.S3_REGION
   'distributionId': sensitive.CLOUDFRONT_DISTRIBUTION_ID
-  'headers': 
+  'headers':
     'Cache-Control': 'max-age=315360000, no-transform, public'
   'invalidateItems': ['/cache.appcache']
 
@@ -60,22 +60,22 @@ gulp.task 'prod', ['scripts:prod', 'styles:prod', 'index:prod']
 # build for production
 gulp.task 'build', (cb) ->
   runSequence 'clean:dist', 'prod', cb
-  
+
 # publishing to aws
 # create revisions (filename-random.extension, gzip, upload to s3, update cloudfront)
 gulp.task 'publish:cloudfront', ->
-  gulp.src [paths.build + '**/*.*', '!' + paths.build + 'assets/kik-icon*.*'] 
+  gulp.src [paths.dist + '**/*.*', '!' + paths.dist + 'assets/kik-icon*.*']
     .pipe revall
         skip: ['vendor.js']
         ignore: ['cache.appcache']
         root: 'index.html'
         hashLength: 6
-    .pipe gzip() 
+    .pipe gzip()
     .pipe s3 aws, gzippedOnly: true
     .pipe cloudfront(aws)
 
 gulp.task 'publish:cloudfrontNoGzip', ->
-  gulp.src(paths.build + '**/kik-icon*.png').pipe(revall(hashLength: 6)).pipe s3(aws)
+  gulp.src(paths.dist + '**/kik-icon*.png').pipe(revall(hashLength: 6)).pipe s3(aws)
 
 
 gulp.task 'publish', ->
