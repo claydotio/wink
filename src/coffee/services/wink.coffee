@@ -14,7 +14,7 @@ class WinkService
         big: true
         data:
           from:
-            username: from.username
+            username: from?.username
 
 
 module.exports = new WinkService()
