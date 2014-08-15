@@ -8,8 +8,8 @@ class WinkService
     log.info 'Winking at', _.pluck(users, 'username')
     _.map users, (user) ->
       kik.send user.username,
-        title: 'Wink!'
-        text: 'Wink!'
+        title: 'Wink ;)'
+        text: 'Tap to wink back at me!'
         pic: WINK_IMG_URI
         big: true
         data:
