@@ -11,7 +11,7 @@ class WinkService
         title: 'Wink ;)'
         text: 'Tap to wink back at me!'
         pic: WINK_IMG_URI
-        big: true
+        big: false
         data:
           from:
             username: from?.username
