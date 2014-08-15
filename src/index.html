@@ -30,7 +30,7 @@
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga')
 
-    ga('create', 'UA-27992080-5', 'auto')
+    ga('create', 'UA-27992080-1', 'clay.io');
     ga('send', 'pageview')
 
     // track kik metrics (users sending messages, etc...)
@@ -45,17 +45,33 @@
 
     $script('http://api.clay.io/socket.io/socket.io.js', 'socket.io')
     $script('js/bundle.js')
-	$script.ready('socket.io', function () {
-	  // Save push token
-	  var socket = io.connect('http://api.clay.io:80')
-	  kik.push.getToken(function (token) {
-	    socket.emit('kikStoreToken', {
-	      token: token,
-	      gameId: 6646
-	    })
-	  })
-    })
 
+  	// Load clay API
+  	window.Clay = window.Clay || {};
+  	Clay.gameKey = "wink";
+  	Clay.readyFunctions = [];
+  	Clay.ready = function( fn ) {
+  		Clay.readyFunctions.push( fn );
+  	};
+  	( function() {
+  		var clay = document.createElement("script"); clay.async = true;
+  		//clay.src = ( "https:" == document.location.protocol ? "https://" : "http://" ) + "clay.io/api/api.js";
+  		//clay.src = "http://cdn.clay.io/api.js";
+  		clay.src = "http://clay.io/api/src/bundle.js";
+  		var tag = document.getElementsByTagName("script")[0]; tag.parentNode.insertBefore(clay, tag);
+  	} )();
+
+    // Leaving the ugly stuff in index.html
+  	Clay.ready(function() {
+      var share = function() {
+        Clay.Kik.post({
+    			message: 'Wink ;)',
+    			title: ';)',
+    			data: {}
+    		})
+      };
+  		Clay.UI.Menu.init( { items: [{ title: 'Share This', handler: share, className: 'clay-swipe-menu' }], hideAchievements: true } )
+    } );
     </script>
 
 

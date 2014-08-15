@@ -8,11 +8,12 @@ class ActorModel
     @user
   login: ->
     deferred = Q.defer()
-    kik.getUser (user) =>
-      if not user
-        return deferred.reject 'Permission Denied'
-      @user = user
-      deferred.resolve(user)
+    Clay.ready =>
+      Clay.Kik.connect (response) =>
+        if not response.success
+          return deferred.reject 'Permission Denied'
+        @user = Clay.Player.data
+        deferred.resolve(user)
     deferred.promise
 
 module.exports = new ActorModel()
